@@ -1,4 +1,7 @@
 const path = require('path');
+const provider = require('@truffle/hdwallet-provider');
+const fs = require('fs');
+const secret = JSON.parse(fs.readFileSync('.secret.json').toString().trim());
 
 /**
  * Use this file to configure your truffle project. It's seeded with some
@@ -40,6 +43,17 @@ module.exports = {
   contracts_build_directory: path.join(__dirname, 'client/src/contracts'),
 
   networks: {
+    kovan: {
+      provider: () =>
+        new provider(
+          secret.privateKeys,
+          'https://kovan.infura.io/v3/a6a4418df2e74fc99df192cb187a9640',
+          0,
+          3,
+        ),
+
+      network_id: 42,
+    },
     // Useful for testing. The `development` name is special - truffle uses it by default
     // if it's defined here and no other network is specified at the command line.
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
@@ -55,7 +69,7 @@ module.exports = {
     // advanced: {
     // port: 8777,             // Custom port
     // network_id: 5777, // Custom network
-    gas: 0, // Gas sent with each transaction (default: ~6700000)
+    // Gas sent with each transaction (default: ~6700000)
     // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
     // from: <address>,        // Account to send txs from (default: accounts[0])
     // websocket: true        // Enable EventEmitter interface for web3 (default: false)
