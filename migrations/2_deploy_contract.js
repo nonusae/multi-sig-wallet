@@ -7,6 +7,6 @@ module.exports = async function (deployer, _network, accounts) {
   await web3.eth.sendTransaction({
     from: accounts[0],
     to: wallet.address,
-    value: 10000,
+    value: 10000000000,
   });
 };

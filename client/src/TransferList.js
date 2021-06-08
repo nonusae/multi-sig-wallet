@@ -23,7 +23,7 @@ function TransferList({ transfers, approveTransfer }) {
               <td>{transfer.to}</td>
               <td>
                 {transfer.approvals}
-                <button OnClick={() => approveTransfer(transfer.id)}>
+                <button onClick={() => approveTransfer(transfer.id)}>
                   Approve
                 </button>
               </td>

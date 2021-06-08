@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     const init = async () => {
-      const web3 = getWeb3();
+      const web3 = await getWeb3();
       const accounts = await web3.eth.getAccounts();
       const wallet = await getWallet(web3);
       const approvers = await wallet.methods.getApprovers().call();
@@ -32,14 +32,20 @@ function App() {
     init();
   }, []);
 
-  const createTransfer = (transfer) => {
-    wallet.methods.createTransfer(transfer.amount, transfer.to).send({
+  const createTransfer = async (transfer) => {
+    await wallet.methods.createTransfer(transfer.amount, transfer.to).send({
       from: accounts[0],
     });
+
+    const transfers = await wallet.methods.getTransfers().call();
+    setTransfers(transfers);
   };
 
-  const approveTransfer = (tranferId) => {
-    wallet.methods.approveTransfer(tranferId).send({ from: accounts[0] });
+  const approveTransfer = async (tranferId) => {
+    await wallet.methods.approveTransfer(tranferId).send({ from: accounts[0] });
+
+    const transfers = await wallet.methods.getTransfers().call();
+    setTransfers(transfers);
   };
 
   if (
